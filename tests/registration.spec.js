@@ -1,43 +1,27 @@
 const { test, expect } = require('@playwright/test');
+const RegistrationPage = require('../pages/RegistrationPage');
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('https://qauto.forstudy.space/');
-});
+test('User registration', async ({ page }) => {
 
-test('Open homepage', async ({ page }) => {
-  await expect(page).toHaveTitle(/Hillel/);
-});
+    const registrationPage = new RegistrationPage(page);
 
-test('Sign In button visible', async ({ page }) => {
-  await expect(
-    page.getByRole('button', { name: 'Sign In' })
-  ).toBeVisible();
-});
+    // открыть сайт
+    await registrationPage.open();
 
-test('Guest log in button visible', async ({ page }) => {
-  await expect(
-    page.getByRole('button', { name: 'Guest log in' })
-  ).toBeVisible();
-});
+    // открыть форму регистрации
+    await registrationPage.openRegistrationForm();
 
-test('Registration button works', async ({ page }) => {
-  await page.getByRole('button', { name: 'Sign In' }).click();
+    // уникальный email
+    const randomEmail = `alina${Date.now()}@test.com`;
 
-  await expect(
-    page.getByRole('button', { name: 'Registration' })
-  ).toBeVisible();
-});
+    // регистрация
+    await registrationPage.register(
+        'Alina',
+        'Kot',
+        randomEmail,
+        'Password123'
+    );
 
-test('Registration modal opens', async ({ page }) => {
-  await page.getByRole('button', { name: 'Sign In' }).click();
-  await page.getByRole('button', { name: 'Registration' }).click();
-
-  await expect(page.locator('#signupName')).toBeVisible();
-});
-
-test('Name field visible', async ({ page }) => {
-  await page.getByRole('button', { name: 'Sign In' }).click();
-  await page.getByRole('button', { name: 'Registration' }).click();
-
-  await expect(page.locator('#signupName')).toBeVisible();
+    // проверка успешной регистрации
+    await expect(page).toHaveURL(/garage/);
 });
