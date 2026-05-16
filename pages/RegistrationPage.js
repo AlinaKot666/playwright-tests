@@ -5,7 +5,7 @@ class RegistrationPage {
         // кнопка Sign up
         this.signUpButton = page.getByRole('button', { name: 'Sign up' });
 
-        // поля формы
+        // поля формы регистрации
         this.nameInput = page.locator('#signupName');
         this.lastNameInput = page.locator('#signupLastName');
         this.emailInput = page.locator('#signupEmail');
@@ -18,7 +18,7 @@ class RegistrationPage {
 
     // открыть сайт
     async open() {
-        await this.page.goto('https://guest:welcome2qauto@qauto.forstudy.space/');
+        await this.page.goto('/');
     }
 
     // открыть форму регистрации
@@ -29,7 +29,7 @@ class RegistrationPage {
         await this.nameInput.waitFor();
     }
 
-    // регистрация
+    // регистрация пользователя
     async register(name, lastName, email, password) {
 
         await this.nameInput.fill(name);
