@@ -5,6 +5,8 @@ const { defineConfig, devices } = require('@playwright/test');
 module.exports = defineConfig({
   testDir: './tests',
 
+  globalSetup: './global.setup.js',
+
   use: {
     baseURL: process.env.BASE_URL,
 
